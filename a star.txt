@@ -1,0 +1,58 @@
+def astaralgo(startnode,endnode):
+    op=set(startnode)
+    cl=set()
+    g={}
+    parent={}
+    parent[startnode]=startnode
+    print("parent",parent)
+    g[startnode]=0
+    while len(op)>0:
+        n=None
+        for v in op:
+            if n==None or g[v]+heu[v]<g[n]+heu[n]:
+                n=v
+        if n == endnode or graph[n]==None:
+            pass
+        else:
+            for (m,weight) in get_adjacent(n):
+                if m not in op and m not in cl:
+                    op.add(m)
+                    g[m]=g[n]+weight
+                    parent[m]=n
+                else:
+                    if g[m]>g[n]+weight:
+                        g[m] = g[n]+weight
+                        parent[m]=n
+                        if m in cl:
+                            cl.remove(m)
+                            op.add(m)
+        if n == endnode:
+            path=[]
+            while parent[n]!=n:
+                path.append(n)
+                n = parent[n]
+            path.append(startnode)
+            path.reverse()
+            print("------path found----")
+            return path
+        op.remove(n)
+        cl.add(n)
+    print("path does not exist")
+def get_adjacent(v):
+    if v in graph:
+        return graph[v]
+    else:
+        None
+graph={'S':[('A',1),('G',12)],
+      'A':[('B',3),('C',1)],
+      'B':[('D',3)],
+      'C':[('D',1),('G',2)],
+      'D':[('G',3)],
+      'G':None}
+heu = {'S':4,'A':2,'B':6,'C':2,'D':3,'G':0}
+astaralgo('S','G')
+parent {'S': 'S'}
+------path found----
+['S', 'A', 'C', 'G']
+ 
+ 
